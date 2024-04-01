@@ -1,0 +1,17 @@
+__bash_completion_dotnet() {
+	if [ $COMP_CWORD -eq 2 ] && [ "${COMP_WORDS[1]}" == "new" ]; then
+		local candidates=( $(dotnet new --list | awk 'flag==2{print substr($0,start); next} flag==1{flag=2; next} match($0,/Short Name/){flag=1; start=RSTART}' | awk '{print $1}' | awk '{split($0,name,","); for (i in name) print name[i]}') )
+
+		COMPREPLY=( $(compgen -W "${candidates[*]:-}" -- "${COMP_WORDS[COMP_CWORD]}") )
+	else
+		local candidates=( $(dotnet complete --position "${COMP_POINT}" "${COMP_LINE}" 2>/dev/null) )
+
+		if [ ${#candidates[@]} -eq 0 ]; then
+			COMPREPLY=( $(compgen -f -- "${COMP_WORDS[COMP_CWORD]}") )
+		else
+			COMPREPLY=( $(compgen -W "${candidates[*]:-}" -- "$curr") )
+		fi
+	fi
+}
+
+complete -o filenames -F __bash_completion_dotnet $(basename ${BASH_SOURCE[0]})

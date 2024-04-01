@@ -1,0 +1,5 @@
+# set tab size to 4 instead of 8
+set tabsize 4
+
+# auto tab
+set autoindent

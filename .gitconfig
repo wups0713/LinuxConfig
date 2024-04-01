@@ -1,0 +1,6 @@
+[http]
+	sslVerify = false
+[submodule]
+	recurse = true
+[advice]
+	detachedHead = false
