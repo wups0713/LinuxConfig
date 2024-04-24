@@ -63,13 +63,13 @@ __setup_fancy_prompt() {
 	bind '"\e[B": history-search-forward'
 
 	# set default prompt
-	local __default_prompt_user_begin="\[\033[01;32m\]"
-	local __default_prompt_user="\u@$(. /etc/os-release; echo "$ID-${VERSION_ID%%.*}")"
-	local __default_prompt_user_end="\[\033[00m\]"
-	local __default_prompt_path_begin="\[\033[01;34m\]"
+	local __default_prompt_user_begin="\[\e[1;32m\]"
+	local __default_prompt_user="\u@$(. /etc/os-release; echo "${ID}-${VERSION_ID%%.*}")"
+	local __default_prompt_user_end="\[\e[0m\]"
+	local __default_prompt_path_begin="\[\e[1;34m\]"
 	local __default_prompt_path="\w"
-	local __default_prompt_path_end="\[\033[00m\]"
-	local __default_prompt_symbol="$ "
+	local __default_prompt_path_end="\[\e[0m\]"
+	local __default_prompt_symbol="\$ "
 
 	PS1="\
 ${__default_prompt_user_begin}\
@@ -88,19 +88,21 @@ ${__default_prompt_symbol}\
 	[ -z "$WSL_DISTRO_NAME" ] || return
 	[ "$TERM_PROGRAM" == "vscode" ] && return
 
-	__custom_prompt_normal_begin="\[\033[37;44m\]"
+	local triangle=$'\u25e4'
+
+	__custom_prompt_normal_begin="\[\e[37;47m\]"
 	__custom_prompt_normal=" "
-	__custom_prompt_normal_end="\[\033[00m\]"
-	__custom_prompt_error_begin="\[\033[01;05;31;44m\]"
-	__custom_prompt_error="!"
-	__custom_prompt_error_end="\[\033[00m\]"
-	__custom_prompt_user_begin="\[\033[01;37;44m\]"
-	__custom_prompt_user="\u@$(. /etc/os-release; echo "$ID-${VERSION_ID%%.*}")"
-	__custom_prompt_user_end=" \[\033[00m\]"
-	__custom_prompt_path_begin="\[\033[01;37;48;5;8m\] "
+	__custom_prompt_normal_end="\[\e[0m\]\[\e[37;44m\]${triangle}\[\e[0m\]"
+	__custom_prompt_notice_begin="\[\e[1;5;91;47m\]"
+	__custom_prompt_notice="!"
+	__custom_prompt_notice_end="\[\e[0m\]\[\e[37;44m\]${triangle}\[\e[0m\]"
+	__custom_prompt_user_begin="\[\e[1;37;44m\] "
+	__custom_prompt_user="\u@$(. /etc/os-release; echo "${ID}-${VERSION_ID%%.*}")"
+	__custom_prompt_user_end=" \[\e[0m\]\[\e[34;48;5;8m\]${triangle}\[\e[0m\]"
+	__custom_prompt_path_begin="\[\e[1;37;48;5;8m\] "
 	__custom_prompt_path=""
-	__custom_prompt_path_end=" \[\033[00m\]"
-	__custom_prompt_symbol="\n$ "
+	__custom_prompt_path_end=" \[\e[0m\]\[\e[38;5;8m\]${triangle}\[\e[0m\]"
+	__custom_prompt_symbol="\n\$ "
 
 	PROMPT_COMMAND=__fancy_prompt
 }
