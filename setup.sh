@@ -19,6 +19,8 @@ main() {
 }
 
 setup_bash() {
+	touch ~/.bashrc
+
 	# setup bash completion
 	cp -r .local ~
 

@@ -86,11 +86,11 @@ ${__default_prompt_symbol}\
 	[ -z "$SSH_CONNECTION" ] || return
 	[ -z "$SSH_CLIENT" ] || return
 	[ -z "$WSL_DISTRO_NAME" ] || return
-	[ "$TERM_PROGRAM" == "vscode" ] && return
+	[ "$TERM_PROGRAM" = "vscode" ] && return
 
 	local separator=""
 
-	[ "$(. /etc/os-release; echo $ID)" == "ubuntu" ] && separator=$'\u25e4'
+	[ "$(. /etc/os-release; echo $ID)" = "ubuntu" ] && separator=$'\u25e4'
 
 	__custom_prompt_normal_begin="\[\e[37;47m\]"
 	__custom_prompt_normal=" "
